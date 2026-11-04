@@ -28,10 +28,10 @@ export function MealDetail({ rules, day, meal }: { rules: ResolvedRules; day: Da
           <table className="w-full text-sm">
             <thead className="bg-surface-2 text-left text-xs text-muted">
               <tr>
-                <th className="px-3 py-2 font-medium">Nutrient</th>
-                <th className="px-3 py-2 font-medium">This meal</th>
-                <th className="px-3 py-2 font-medium">Day total</th>
-                <th className="px-3 py-2 font-medium">Daily limit</th>
+                <th className="px-2 py-2 font-medium sm:px-3">Nutrient</th>
+                <th className="px-2 py-2 font-medium sm:px-3">This meal</th>
+                <th className="px-2 py-2 font-medium sm:px-3">Day total</th>
+                <th className="px-2 py-2 font-medium sm:px-3">Daily limit</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line tabular-nums">
@@ -39,13 +39,15 @@ export function MealDetail({ rules, day, meal }: { rules: ResolvedRules; day: Da
                 const over = row.dayMax !== undefined && row.dayTotal > row.dayMax + 1e-6;
                 return (
                   <tr key={row.nutrient}>
-                    <td className="px-3 py-2">{NUTRIENT_META[row.nutrient].label}</td>
-                    <td className="px-3 py-2">
-                      {fmtAmount(row.amount, row.nutrient)}
-                      {row.shareOfMax !== undefined && <span className="text-muted"> ({Math.round(row.shareOfMax * 100)}%)</span>}
+                    <td className="px-2 py-2 sm:px-3">{NUTRIENT_META[row.nutrient].label}</td>
+                    <td className="px-2 py-2 sm:px-3">
+                      <span className="whitespace-nowrap">{fmtAmount(row.amount, row.nutrient)}</span>
+                      {row.shareOfMax !== undefined && (
+                        <span className="block text-xs text-muted sm:inline sm:text-sm"> ({Math.round(row.shareOfMax * 100)}%)</span>
+                      )}
                     </td>
-                    <td className={`px-3 py-2 ${over ? "font-semibold text-danger" : ""}`}>{fmtAmount(row.dayTotal, row.nutrient)}</td>
-                    <td className="px-3 py-2 text-muted">
+                    <td className={`whitespace-nowrap px-2 py-2 sm:px-3 ${over ? "font-semibold text-danger" : ""}`}>{fmtAmount(row.dayTotal, row.nutrient)}</td>
+                    <td className="px-2 py-2 text-muted sm:px-3">
                       {row.nutrient === "kcal"
                         ? `target ${rules.energyTarget.toLocaleString("en-US")}`
                         : [row.dayMin !== undefined && `≥ ${row.dayMin}`, row.dayMax !== undefined && `≤ ${row.dayMax.toLocaleString("en-US")}`]

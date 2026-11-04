@@ -12,7 +12,8 @@ const VARIANTS: Record<Variant, string> = {
 };
 const base =
   "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none";
-const SIZES = { sm: "h-8 px-3 text-sm", md: "h-10 px-4 text-sm", lg: "h-12 px-6 text-base" };
+// `sm` stays 40px tall on touch-sized screens so it remains an easy tap target.
+const SIZES = { sm: "h-10 px-3 text-sm sm:h-8", md: "h-10 px-4 text-sm", lg: "h-12 px-6 text-base" };
 
 export function Button({
   variant = "primary",
@@ -70,8 +71,9 @@ export function Field({ label, hint, children, htmlFor }: { label: string; hint?
   );
 }
 
+// 16px text below `sm` stops iOS Safari from zooming the page when a field is focused.
 const inputCls =
-  "h-10 rounded-lg border border-line bg-surface px-3 text-sm text-fg placeholder:text-muted user-invalid:border-danger";
+  "h-11 rounded-lg border border-line bg-surface px-3 text-base text-fg placeholder:text-muted user-invalid:border-danger sm:h-10 sm:text-sm";
 
 export function Input({ className = "", ...props }: ComponentProps<"input">) {
   return <input className={`${inputCls} ${className}`} {...props} />;
@@ -162,19 +164,20 @@ export const Modal = forwardRef<ModalHandle, { title: string; children: ReactNod
         aria-labelledby={titleId}
         closedby="any"
         onClose={onClose}
-        className={`m-auto max-h-[90dvh] w-[calc(100%-2rem)] ${wide ? "max-w-3xl" : "max-w-xl"} overflow-y-auto rounded-2xl border border-line bg-surface p-0 text-fg shadow-xl`}
+        // Phones: full-width bottom sheet. sm and up: centred card.
+        className={`mx-0 mt-auto mb-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-2xl border border-b-0 border-line bg-surface p-0 text-fg shadow-xl sm:m-auto sm:max-h-[90dvh] sm:w-[calc(100%-2rem)] ${wide ? "sm:max-w-3xl" : "sm:max-w-xl"} sm:rounded-2xl sm:border-b`}
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-line bg-surface px-5 py-4">
-          <h2 id={titleId} className="text-lg font-semibold">
+        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-line bg-surface py-2 pr-2 pl-4 sm:py-3 sm:pl-5">
+          <h2 id={titleId} className="text-base font-semibold sm:text-lg">
             {title}
           </h2>
           <form method="dialog">
-            <button className="rounded-md px-2 py-1 text-sm text-muted hover:bg-surface-2" aria-label="Close">
+            <button className="grid size-10 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface-2" aria-label="Close">
               ✕
             </button>
           </form>
         </div>
-        <div className="px-5 py-4">{children}</div>
+        <div className="px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5">{children}</div>
       </dialog>
     );
   },

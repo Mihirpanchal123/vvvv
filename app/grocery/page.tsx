@@ -139,7 +139,7 @@ export default function GroceryPage() {
                     {i.notes.map((n) => <span key={n} className="block text-xs text-warn">{n}</span>)}
                   </span>
                   {i.inPantry && (
-                    <button className="no-print shrink-0 text-xs text-brand underline" onClick={() => togglePantry(i.ingredientId)}>
+                    <button className="no-print -my-2 -mr-2 min-h-10 shrink-0 px-2 text-xs text-brand underline" onClick={() => togglePantry(i.ingredientId)}>
                       Add back to list
                     </button>
                   )}
@@ -178,7 +178,11 @@ function GroceryRow({ item, checked, onToggle, onHaveIt }: { item: GroceryItem; 
           </span>
         ))}
       </label>
-      <button onClick={onHaveIt} className="no-print shrink-0 text-xs text-muted underline hover:text-fg" title="Move to pantry for future lists">
+      <button
+        onClick={onHaveIt}
+        className="no-print -my-2 -mr-2 min-h-10 shrink-0 px-2 text-xs text-muted underline hover:text-fg"
+        title="Move to pantry for future lists"
+      >
         Have it
       </button>
     </li>

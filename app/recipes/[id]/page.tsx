@@ -26,7 +26,7 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
 
   return (
     <div className="mx-auto max-w-3xl">
-      <Link href="/recipes" className="text-sm text-muted hover:text-fg">← All recipes</Link>
+      <Link href="/recipes" className="-my-2 inline-block py-2 text-sm text-muted hover:text-fg">← All recipes</Link>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">{r.title}</h1>
       <div className="mt-3 flex flex-wrap gap-2 text-xs">
         {r.slots.map((s) => <Badge key={s} tone="brand" className="capitalize">{s}</Badge>)}

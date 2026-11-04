@@ -77,6 +77,13 @@ body {
   outline-offset: 2px;
 }
 
+/* Room for the fixed bottom tab bar on phones */
+@media (max-width: 639.98px) {
+  body:has(#mobile-tabbar) {
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+}
+
 /* Native modal dialogs */
 dialog:modal {
   overscroll-behavior: contain;

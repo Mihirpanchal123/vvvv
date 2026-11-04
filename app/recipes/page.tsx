@@ -55,13 +55,13 @@ export default function RecipesPage() {
           const reasons = fit?.get(info.recipe.id);
           return (
             <li key={info.recipe.id}>
-              <Card className="flex h-full flex-col p-4">
+              <Card className="relative flex h-full flex-col p-4 transition-colors has-[a:hover]:bg-surface-2">
                 <div className="flex flex-wrap gap-1.5 text-xs">
                   {info.recipe.slots.map((s) => <Badge key={s} className="capitalize">{s}</Badge>)}
                   {state.favorites.includes(info.recipe.id) && <Badge tone="brand">★</Badge>}
                   {fit && (reasons ? <Badge tone="danger">not for you</Badge> : <Badge tone="ok">fits your diet</Badge>)}
                 </div>
-                <Link href={`/recipes/${info.recipe.id}`} className="mt-2 font-medium hover:underline">{info.recipe.title}</Link>
+                <Link href={`/recipes/${info.recipe.id}`} className="mt-2 font-medium after:absolute after:inset-0 after:rounded-xl hover:underline">{info.recipe.title}</Link>
                 <p className="mt-1 text-xs text-muted tabular-nums">
                   {SHOWN.map((n) => `${fmtAmount(info.perServing[n], n)}${n === "kcal" ? "" : ` ${n === "carb" ? "carbs" : n === "sodium" ? "Na" : n === "potassium" ? "K" : n === "phosphorus" ? "P" : n}`}`).join(" · ")}
                 </p>

@@ -136,7 +136,7 @@ export default function PlanPage() {
         subtitle={
           <span className="flex flex-wrap items-center gap-2">
             {profile.diets.length ? profile.diets.map((d) => <Badge key={d} tone="brand">{DIET_NAMES[d]}</Badge>) : <Badge>General healthy eating</Badge>}
-            <span className="text-sm">· {rules.energyTarget.toLocaleString("en-US")} kcal/day target</span>
+            <span className="text-sm"><span aria-hidden className="max-sm:hidden">· </span>{rules.energyTarget.toLocaleString("en-US")} kcal/day target</span>
           </span>
         }
         actions={

@@ -253,7 +253,7 @@ export function FoodSection({ profile, onChange }: { profile: UserProfile; onCha
                               : [...profile.dislikedIngredients, i.id],
                           })
                         }
-                        className={`rounded-full border px-2.5 py-1 text-xs ${on ? "border-danger bg-danger-soft text-danger line-through" : "border-line hover:bg-surface-2"}`}
+                        className={`min-h-9 rounded-full border px-3 py-1 text-sm sm:min-h-0 sm:px-2.5 sm:text-xs ${on ? "border-danger bg-danger-soft text-danger line-through" : "border-line hover:bg-surface-2"}`}
                       >
                         {i.name}
                       </button>
@@ -315,10 +315,10 @@ export function LimitsSummary({ rules }: { rules: ResolvedRules }) {
         <table className="w-full text-sm">
           <thead className="bg-surface-2 text-left text-xs uppercase tracking-wide text-muted">
             <tr>
-              <th className="px-3 py-2 font-medium">When</th>
-              <th className="px-3 py-2 font-medium">Nutrient</th>
-              <th className="px-3 py-2 font-medium">Limit</th>
-              <th className="px-3 py-2 font-medium">From</th>
+              <th className="px-2.5 py-2 font-medium sm:px-3">When</th>
+              <th className="px-2.5 py-2 font-medium sm:px-3">Nutrient</th>
+              <th className="px-2.5 py-2 font-medium sm:px-3">Limit</th>
+              <th className="hidden px-3 py-2 font-medium sm:table-cell">From</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
@@ -327,14 +327,19 @@ export function LimitsSummary({ rules }: { rules: ResolvedRules }) {
                 .filter((l) => l.scope === scope)
                 .map((l) => (
                   <tr key={`${l.scope}-${l.nutrient}-${l.op}`}>
-                    <td className="px-3 py-2 capitalize text-muted">{scope === "day" ? "Per day" : scope}</td>
-                    <td className="px-3 py-2">{NUTRIENT_META[l.nutrient].label}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">
-                      {l.op === "max" ? "≤ " : "≥ "}
-                      {fmt(l.value, l.nutrient)}{" "}
+                    <td className="px-2.5 py-2 capitalize text-muted sm:px-3">{scope === "day" ? "Per day" : scope}</td>
+                    <td className="px-2.5 py-2 sm:px-3">
+                      {NUTRIENT_META[l.nutrient].label}
+                      <span className="block text-xs text-muted sm:hidden" title={l.reason}>{SOURCE_LABEL[l.source]}</span>
+                    </td>
+                    <td className="px-2.5 py-2 sm:px-3">
+                      <span className="whitespace-nowrap">
+                        {l.op === "max" ? "≤ " : "≥ "}
+                        {fmt(l.value, l.nutrient)}
+                      </span>{" "}
                       {!l.hard && <Badge>target</Badge>}
                     </td>
-                    <td className="px-3 py-2 text-muted" title={l.reason}>
+                    <td className="hidden px-3 py-2 text-muted sm:table-cell" title={l.reason}>
                       {SOURCE_LABEL[l.source]}
                     </td>
                   </tr>
