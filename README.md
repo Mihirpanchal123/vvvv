@@ -67,10 +67,29 @@ UserProfile ──resolveRules──▶ ResolvedRules ──buildCandidates─�
 ## Accounts (Supabase)
 
 1. Create a Supabase project and run `supabase/migrations/20261104000000_init.sql`. It creates the tables, and every table has Row Level Security scoped to `auth.uid()`.
-2. Enable **Email** auth (magic link). Add `<your-origin>/auth/callback` to the allowed redirect URLs.
-3. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+2. In **Authentication → Sign In / Providers**, make sure **Email** is enabled. It is on by default.
+   - **Confirm email** on (the default): new accounts must click a link in their inbox before they can sign in.
+   - **Confirm email** off: new accounts are signed in immediately.
+3. In **Authentication → URL Configuration**:
+   - Set the Site URL to your production origin.
+   - Add each `<origin>/auth/callback` to Redirect URLs, e.g. `http://localhost:3000/auth/callback` and `https://<site>.netlify.app/auth/callback`. For Netlify deploy previews, add `https://*--<site>.netlify.app/auth/callback`.
+
+   Confirmation and password-reset emails link back through this route.
+4. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+
+Sign-in is by email and password (`/login`), with **Forgot password?** emailing a link that lands on `/reset-password`. Supabase's built-in mailer is rate-limited to a few emails per hour, so set up custom SMTP (Authentication → Emails) before launch.
 
 When a user signs in, any data they created as a guest is uploaded. After that, `components/sync-provider.tsx` mirrors changes to Postgres; the newest whole state wins. "Delete all my data" removes the user's rows; deleting the auth user itself needs the Supabase admin API.
+
+## Deploying to Netlify
+
+`netlify.toml` holds the build settings. Netlify detects Next.js and turns pages and API routes into functions automatically.
+
+1. Push the repo to GitHub, GitLab or Bitbucket. In Netlify, choose **Add new site → Import an existing project** and pick the repo. Alternatively, use `npx netlify-cli deploy --build --prod` from this folder.
+2. Under **Site configuration → Environment variables**, add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`, then trigger a redeploy. They are inlined at build time. Without them the site runs in guest mode, with no sign-in.
+3. In Supabase, set the Site URL to the Netlify URL and add its `/auth/callback` to Redirect URLs, as described in [Accounts](#accounts-supabase).
+
+Plan generation runs inside a function and takes up to about 4 s for the hardest CKD profiles. That fits within Netlify's default 10 s synchronous function timeout.
 
 ## Before a public launch
 

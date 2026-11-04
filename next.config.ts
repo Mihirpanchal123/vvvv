@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Keep the dev-only badge clear of the mobile bottom tab bar.
-  devIndicators: { position: "top-right" },
+  // The dev-only badge overlaps the header button and the mobile tab bar. Build errors still show as an overlay.
+  devIndicators: false,
 };
 
 export default nextConfig;
