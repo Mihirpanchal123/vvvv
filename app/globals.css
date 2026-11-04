@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6f7f4;
+  --surface: #ffffff;
+  --surface-2: #eef2ee;
+  --text: #17201c;
+  --muted: #59655f;
+  --border: #dde3de;
+  --brand: #1d6b50;
+  --brand-hover: #165841;
+  --brand-ink: #ffffff;
+  --brand-soft: #e3f1ea;
+  --ok: #17803d;
+  --ok-soft: #e4f4e8;
+  --warn: #a35a06;
+  --warn-soft: #fdf1df;
+  --danger: #b42318;
+  --danger-soft: #fdeceb;
+  --track: #e5e9e6;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1412;
+    --surface: #161d1a;
+    --surface-2: #1d2622;
+    --text: #e7ece9;
+    --muted: #9aa8a1;
+    --border: #2a3530;
+    --brand: #5cc39a;
+    --brand-hover: #74d1ac;
+    --brand-ink: #08130e;
+    --brand-soft: #173328;
+    --ok: #5cc98a;
+    --ok-soft: #15301f;
+    --warn: #f0b35c;
+    --warn-soft: #3a2a12;
+    --danger: #f2877d;
+    --danger-soft: #3d1a17;
+    --track: #27322d;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-track: var(--track);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Native modal dialogs */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgb(10 20 16 / 0.45);
+}
+
+/* Step progress (onboarding) — fully custom <progress> styling */
+progress.steps {
+  appearance: none;
+  border: 0 solid;
+  overflow: clip;
+  inline-size: 100%;
+  block-size: 6px;
+  border-radius: 1e5px;
+  background: var(--track);
+}
+progress.steps::-webkit-progress-bar {
+  background: transparent;
+}
+progress.steps::-webkit-progress-value {
+  background: var(--brand);
+  border-radius: 1e5px;
+  transition: inline-size 0.3s;
+}
+progress.steps::-moz-progress-bar {
+  background: var(--brand);
+  border-radius: 1e5px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .print-break {
+    break-inside: avoid;
+  }
+}
